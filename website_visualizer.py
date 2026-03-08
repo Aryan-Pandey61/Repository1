@@ -95,8 +95,16 @@ def shorten_label(url: str, max_len: int = 35) -> str:
     return label if len(label) <= max_len else label[:max_len - 1] + "…"
 
 
-def visualize(graph: nx.DiGraph, homepage_url: str, output_file: str = "website_structure.png") -> None:
-    """Render the graph with the homepage at the centre and save / show it."""
+def visualize(
+    graph: nx.DiGraph,
+    homepage_url: str,
+    output_file: str = "website_structure.png",
+    show_plot: bool = True,
+) -> None:
+    """Render the graph with the homepage at the centre and save it.
+
+    Set *show_plot* to False when running in headless/server environments.
+    """
     num_nodes = graph.number_of_nodes()
 
     # --- layout ---------------------------------------------------------
@@ -164,10 +172,12 @@ def visualize(graph: nx.DiGraph, homepage_url: str, output_file: str = "website_
     # Save to file (always) and optionally show in a window
     plt.savefig(output_file, dpi=150, bbox_inches="tight", facecolor=fig.get_facecolor())
     print(f"[INFO] Graph saved to '{output_file}'")
-    try:
-        plt.show()
-    except Exception:
-        pass  # headless environment — file output is enough
+    if show_plot:
+        try:
+            plt.show()
+        except Exception:
+            pass  # headless environment - file output is enough
+    plt.close(fig)
 
 
 # ---------------------------------------------------------------------------
@@ -203,7 +213,7 @@ def main() -> None:
     graph = build_graph(url, links)
     print(f"[INFO] Building graph with {graph.number_of_nodes()} node(s) and {graph.number_of_edges()} edge(s) …")
 
-    visualize(graph, url)
+    visualize(graph, url, show_plot=True)
 
 
 if __name__ == "__main__":
