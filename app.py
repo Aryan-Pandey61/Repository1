@@ -3,7 +3,7 @@ from __future__ import annotations
 import base64
 import os
 import tempfile
-from flask import Flask, request
+from flask import Flask, render_template_string, request
 
 from website_visualizer import build_graph, fetch_page, get_internal_links, visualize
 
@@ -64,13 +64,13 @@ HTML_PAGE = """
   <p>Enter a homepage URL to generate an internal-link graph.</p>
 
   <form method="post">
-    <input type="text" name="url" placeholder="https://example.com" value="{url_value}" required>
+    <input type="text" name="url" placeholder="https://example.com" value="{{ url_value }}" required>
     <button type="submit">Visualize</button>
   </form>
 
-  {error_block}
-  {meta_block}
-  {image_block}
+  {{ error_block|safe }}
+  {{ meta_block|safe }}
+  {{ image_block|safe }}
 </body>
 </html>
 """
@@ -135,7 +135,8 @@ def index() -> str:
                     if tmp_path and os.path.exists(tmp_path):
                         os.remove(tmp_path)
 
-    return HTML_PAGE.format(
+    return render_template_string(
+      HTML_PAGE,
         url_value=url_value,
         error_block=error_block,
         meta_block=meta_block,
