@@ -23,50 +23,39 @@ Deploy in one click on **Render.com** (free tier) — see [Deploy to Render](#de
 pip install -r requirements.txt
 ```
 
-### Start the web server
+3. Start the web app:
 
 ```bash
 python app.py
 ```
 
-Then open <http://localhost:5000> in your browser, enter any URL, and click
-**Visualize**.
+4. Open `http://localhost:8000`.
 
----
+## Deploy on Render (recommended)
 
-## Deployment
+1. Push this repository to GitHub.
+2. In Render, click `New +` -> `Web Service`.
+3. Connect your GitHub repo and select this repository.
+4. Use these settings:
+	- Runtime: `Python 3`
+	- Build Command: `pip install -r requirements.txt`
+	- Start Command: `gunicorn app:app`
+5. Click `Create Web Service`.
 
-### Deploy to Render
+Render will assign a live URL once deployment completes.
 
-1. Fork / push this repository to your GitHub account.
-2. Go to <https://render.com> and create a **New Web Service**.
-3. Connect your GitHub repo — Render will auto-detect `render.yaml` and
-   pre-fill all settings.
-4. Click **Create Web Service**.  Your app will be live at
-   `https://website-visualizer.onrender.com` (or a similar auto-generated URL).
+## Deploy on Railway (alternative)
 
-### Deploy with Docker
+1. Push this repository to GitHub.
+2. In Railway, click `New Project` -> `Deploy from GitHub repo`.
+3. Select this repository.
+4. Railway will install dependencies and use `Procfile` (`web: gunicorn app:app`).
+5. Open the generated public domain from project settings.
 
-```bash
-# Build the image
-docker build -t website-visualizer .
+## Optional: Keep CLI mode
 
-# Run the container
-docker run -p 8080:8080 website-visualizer
-```
-
-Then open <http://localhost:8080>.
-
----
-
-## CLI Usage (offline)
+You can still run the original script directly:
 
 ```bash
-# Pass URL as an argument
 python website_visualizer.py https://example.com
-
-# Or run interactively
-python website_visualizer.py
 ```
-
-The graph is saved as `website_structure.png` in the current directory.
