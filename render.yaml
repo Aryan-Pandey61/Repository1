@@ -1,0 +1,11 @@
+# Render.com deployment configuration
+# Docs: https://render.com/docs/render-yaml
+services:
+  - type: web
+    name: website-visualizer
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --timeout 120 --workers 2 app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0

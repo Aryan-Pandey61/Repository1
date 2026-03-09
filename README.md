@@ -1,24 +1,23 @@
 # Website Structure Visualizer
 
-This project now includes a web-hostable version of the visualizer.
+A web app that scrapes all internal links from any URL and displays them as an
+interactive node graph.  Enter a URL → get a PNG graph back in your browser.
 
-## What it does
+---
 
-- Accepts a homepage URL
-- Scrapes internal links from that page
-- Builds a directed graph of homepage -> internal links
-- Renders and returns a PNG graph in the browser
+## Live Demo
 
-## Run locally
+Deploy in one click on **Render.com** (free tier) — see [Deploy to Render](#deploy-to-render) below.
 
-1. Create and activate a virtual environment:
+---
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
+## Running Locally
 
-2. Install dependencies:
+### Prerequisites
+
+- Python 3.8+
+
+### Setup
 
 ```bash
 pip install -r requirements.txt
